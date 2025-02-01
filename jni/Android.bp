@@ -1,0 +1,36 @@
+soong_namespace {
+}
+
+cc_library_shared {
+    name: "libqcomfmjni",
+
+    defaults: [
+        "qcom_libfmjni_defaults",
+    ],
+	
+    srcs: [
+        "FmIoctlsInterface.cpp",
+        "ConfigFmThs.cpp",
+        "FmPerformanceParams.cpp",
+        "ConfFileParser.cpp",
+        "FmRadioController.cpp",
+        "LibfmJni.cpp",
+    ],
+
+    include_dirs: [
+        "frameworks/base/core/jni/include",
+        "frameworks/base/include/media",
+    ],
+
+    header_libs: ["jni_headers"],
+
+    shared_libs: [
+        "libcutils",
+        "libdl",
+        "liblog",
+        "libmedia",
+        "libnativehelper",
+    ],
+
+
+}
