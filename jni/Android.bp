@@ -19,7 +19,6 @@ cc_library_shared {
 
     include_dirs: [
         "frameworks/base/core/jni/include",
-        "frameworks/base/include/media",
     ],
 
     header_libs: ["jni_headers"],
