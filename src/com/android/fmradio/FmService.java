@@ -1358,6 +1358,19 @@ public class FmService extends Service implements FmRecorder.OnRecorderStateChan
         mWakeLock.setReferenceCounted(false);
         sRecordingSdcard = FmUtils.getDefaultStoragePath();
 
+        // Determine whether should output audio to headphones/headset instead
+        final AudioDeviceInfo[] deviceList =
+            mAudioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS);
+        for (final AudioDeviceInfo audioDeviceInfo : deviceList) {
+            final int deviceType = audioDeviceInfo.getType();
+            if (deviceType == AudioDeviceInfo.TYPE_WIRED_HEADPHONES
+                    || deviceType == AudioDeviceInfo.TYPE_WIRED_HEADSET) {
+                mIsSpeakerUsed = false;
+                break;
+            }
+        }
+        Log.d(TAG, "onCreate, mIsSpeakerUsed = " + mIsSpeakerUsed);
+
         mUseAudioSession = SystemProperties.getBoolean("ro.vendor.fm.use_audio_session", false);
         Log.d(TAG, "onCreate, mUseAudioSession = " + mUseAudioSession);
 
