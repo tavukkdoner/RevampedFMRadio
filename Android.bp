@@ -12,37 +12,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-android_library {
-    name: "RevampedFMRadio_static",
-    srcs: ["__builtin_func:filter-out src/com/android/fmradio/%Activity.java src/com/android/fmradio/dialogs/% src/com/android/fmradio/views/%  src/**/*.java"],
-    resource_dirs: ["res"],
-}
-
 android_app {
+
     name: "RevampedFMRadio",
 
-    certificate: "platform",
-
     srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
 
     overrides: ["FMRadio"],
 
+    certificate: "platform",
     platform_apis: true,
+    privileged: true,
 
     jni_libs: ["libqcomfmjni"],
+
+    required: [
+        "privapp_whitelist_com.android.fmradio.xml",
+        "RevampedFmRecordingsProvider",
+    ],
+
+    static_libs: ["androidx.cardview_cardview"],
 
     optimize: {
         enabled: false,
     },
-    privileged: true,
-
-    static_libs: ["android-support-v7-cardview"],
-
-    resource_dirs: ["res"],
 
     aaptflags: ["--auto-add-overlay"],
-
-    required: ["privapp_whitelist_com.android.fmradio_revamped.xml"],
 
 }
 
