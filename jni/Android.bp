@@ -4,9 +4,10 @@ soong_namespace {
 cc_library_shared {
     name: "libqcomfmjni",
 
-    defaults: [
-        "qcom_libfmjni_defaults",
-    ],
+    cflags: select(soong_config_variable("libqcomfmjni", "no_fm_firmware"), {
+        true: ["-DQCOM_NO_FM_FIRMWARE"],
+        default: [],
+    }),
 	
     srcs: [
         "FmIoctlsInterface.cpp",
