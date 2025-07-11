@@ -33,6 +33,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ServiceInfo;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -59,6 +60,7 @@ import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerExecutor;
@@ -2027,7 +2029,11 @@ public class FmService extends Service implements FmRecorder.OnRecorderStateChan
 
             Notification n = notificationBuilder.build();
             n.flags &= ~Notification.FLAG_NO_CLEAR;
-            startForeground(NOTIFICATION_ID, n);
+            int fgsType = 0;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                fgsType = ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK;
+            }
+            startForeground(NOTIFICATION_ID, n, fgsType);
         }
     }
 
@@ -2095,7 +2101,11 @@ public class FmService extends Service implements FmRecorder.OnRecorderStateChan
      * Show notification
      */
     public void showRecordingNotification(Notification notification) {
-        startForeground(NOTIFICATION_ID, notification);
+        int fgsType = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            fgsType = ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK;
+        }
+        startForeground(NOTIFICATION_ID, notification, fgsType);
     }
 
     /**
